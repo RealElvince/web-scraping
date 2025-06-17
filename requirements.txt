@@ -2,4 +2,8 @@ beautifulsoup4
 requests
 pandas
 seleniums
+apache-airflow
+apache-airflow-provider-google
+dbt-core
+dbt-bigquery
 

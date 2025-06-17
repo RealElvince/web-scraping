@@ -1,0 +1,23 @@
+
+services:
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: airflow
+    volumes:
+      - ./elt:/opt/airflow/elt
+      - ./dags:/opt/airflow/dags
+    environment:
+      - AIRFLOW_LOAD_EXAMPLES=False
+    ports:
+      - "8080:8080"
+    networks:
+      - airflow_network
+    command: >
+      bash -c "airflow standalone"
+
+
+networks:
+  airflow_network:
+    driver: bridge
