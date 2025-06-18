@@ -8,6 +8,7 @@ services:
     volumes:
       - ./elt:/opt/airflow/elt
       - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
     environment:
       - AIRFLOW_LOAD_EXAMPLES=False
     ports:

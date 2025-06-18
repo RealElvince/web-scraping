@@ -31,7 +31,7 @@ with DAG(
     description='A simple ELT data pipeline',
     tags=['elt', 'web_scraping'],
     catchup=False,
-    schedule_interval=None 
+    schedule=None
 ) as dag:
     
     extract_task = PythonOperator(

@@ -6,7 +6,7 @@ import pandas as pd
 
 def web_scraping():
     books = []
-    for i in range(10,15):
+    for i in range(1,20):
         URL = f"https://books.toscrape.com/catalogue/page-{i}.html"
         page_to_scrape = requests.get(URL)
         print(page_to_scrape)
@@ -32,5 +32,5 @@ def web_scraping():
             books.append([title,price,star])
             
     df = pd.DataFrame(books,columns=['Book_Title','Price($)','Rating'])
-    df.to_csv('books.csv',mode='a',header=False,index=False)
+    df.to_csv('data/books.csv',mode='a',index=False)
 
