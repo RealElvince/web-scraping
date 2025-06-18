@@ -9,8 +9,10 @@ services:
       - ./elt:/opt/airflow/elt
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data
+      - ./gcp:/opt/airflow/gcp
     environment:
       - AIRFLOW_LOAD_EXAMPLES=False
+      - AIRFLOW_CONN_GCP_DEFAULT: '{"key_path": "/opt/airflow/gcp/service_account.json", "project": "data-engineering-458813"}'
     ports:
       - "8080:8080"
     networks:
