@@ -9,12 +9,13 @@ import os
 import sys
 
 
-sys.path.apppend("/opt/airflow")
+sys.path.append("/opt/airflow")
 from elt.web_scrape import web_scraping
 
 
 def perform_web_scraping():
     web_scraping()
+    print("Web scraping completed successfully.")
 
 default_args = {
     'owner': 'airflow',
