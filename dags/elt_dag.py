@@ -8,11 +8,18 @@ from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobO
 import os 
 import sys
 
+from dotenv import load_dotenv
+load_dotenv()
+
+PROJECID= os.getenv("PROJECTID")
+BUCKET_NAME = os.getenv("BUCKET_NAME")
+DATASET_NAME = os.getenv("DATASET_NAME")
 
 sys.path.append("/opt/airflow")
 from elt.web_scrape import web_scraping
 
 
+# Function to perform web scraping
 def perform_web_scraping():
     web_scraping()
     print("Web scraping completed successfully.")
@@ -39,4 +46,20 @@ with DAG(
         python_callable=perform_web_scraping,
     )
 
-extract_task
+   
+
+    load_to_gcs_task = LocalFilesystemToGCSOperator(
+    
+       task_id='load_to_gcs',
+       src='data/books.csv',
+       bucket=BUCKET_NAME,
+       dst='books/books.csv',
+       mime_type='text/csv',
+       gcp_conn_id='gcp_default',
+       gzip=False,
+       overwrite=True
+
+
+
+    )
+extract_task >> load_to_gcs_task
