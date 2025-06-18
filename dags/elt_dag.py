@@ -52,12 +52,12 @@ with DAG(
     
        task_id='load_to_gcs',
        src='data/books.csv',
-       bucket=BUCKET_NAME,
        dst='books/books.csv',
+       bucket=BUCKET_NAME,
        mime_type='text/csv',
        gcp_conn_id='gcp_default',
        gzip=False,
-       overwrite=True
+       
 
 
 
