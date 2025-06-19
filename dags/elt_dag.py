@@ -57,9 +57,22 @@ with DAG(
        mime_type='text/csv',
        gcp_conn_id='gcp_default',
        gzip=False,
+    )
        
 
-
-
+    load_to_bigquery_task = GCSToBigQueryOperator(
+        task_id='load_to_bigquery',
+        bucket=BUCKET_NAME,
+        source_objects=['books/books.csv'],
+        destination_project_dataset_table=f"{PROJECID}.{DATASET_NAME}.books",
+        source_format='CSV',
+        skip_leading_rows=1,
+        write_disposition='WRITE_TRUNCATE',
+        gcp_conn_id='gcp_default',
+        allow_jagged_rows=False,
+        ignore_unknown_values=True,
+        autodetect=True,
+        field_delimiter=','
     )
-extract_task >> load_to_gcs_task
+
+extract_task >> load_to_gcs_task >> load_to_bigquery_task
