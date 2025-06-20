@@ -14,9 +14,14 @@ load_dotenv()
 PROJECID= os.getenv("PROJECTID")
 BUCKET_NAME = os.getenv("BUCKET_NAME")
 DATASET_NAME = os.getenv("DATASET_NAME")
+TABLE_NAME = os.getenv("TABLE_NAME")
+
+book_ratings = ['One', 'Two', 'Three', 'Four', 'Five']
 
 sys.path.append("/opt/airflow")
 from elt.web_scrape import web_scraping
+
+
 
 
 # Function to perform web scraping
@@ -75,4 +80,26 @@ with DAG(
         field_delimiter=','
     )
 
-extract_task >> load_to_gcs_task >> load_to_bigquery_task
+    create_book_rating_tasks = []
+    for book_rating in book_ratings:
+        create_book_rating_table_task = BigQueryInsertJobOperator(
+            task_id=f'create_{book_rating}_star_table',
+            configuration={
+                "query": {
+                    "query": f"""
+                        CREATE OR REPLACE TABLE `{PROJECID}.{DATASET_NAME}.{book_rating}_star_table` AS
+                        SELECT * FROM `{PROJECID}.{DATASET_NAME}.{TABLE_NAME}`
+                        WHERE rating = '{book_rating}';
+                    """,
+                    "useLegacySql": False,
+                }
+            },
+            gcp_conn_id='gcp_default',
+        )
+
+        create_book_rating_tasks.append(create_book_rating_table_task)
+
+
+for create_book_rating_table_task in create_book_rating_tasks:
+    extract_task >> load_to_gcs_task >> load_to_bigquery_task >> create_book_rating_table_task
+    
