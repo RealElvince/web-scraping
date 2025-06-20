@@ -31,6 +31,6 @@ def web_scraping():
             price = (float(price))
             books.append([title,price,star])
             
-    df = pd.DataFrame(books,columns=['Book_Title','Price($)','Rating'])
-    df.to_csv('data/books.csv',mode='a',index=False)
+    df = pd.DataFrame(books,columns=['book_title','price','rating'])
+    df.to_csv('data/books.csv',index=False)
 
