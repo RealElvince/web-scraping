@@ -1,0 +1,1 @@
+{{calculate_maximum_price('stg_books')}}

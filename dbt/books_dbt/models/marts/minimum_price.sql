@@ -1,0 +1,1 @@
+{{calculate_minimum_price('stg_books')}}

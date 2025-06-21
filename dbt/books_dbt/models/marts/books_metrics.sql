@@ -1,0 +1,1 @@
+{{ calculate_book_metrics('stg_books') }}
