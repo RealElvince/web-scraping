@@ -10,6 +10,8 @@ services:
       - ./dags:/opt/airflow/dags
       - ./data:/opt/airflow/data
       - ./gcp:/opt/airflow/gcp
+      - ./dbt/books_dbt:/opt/airflow/dbt
+      - ./.dbt:/opt/airflow/.dbt
     
     env_file:
       - .env
@@ -27,8 +29,8 @@ services:
       - airflow_network
     command: >
       bash -c "airflow standalone"
-
-
+  
+  
 networks:
   airflow_network:
     driver: bridge
