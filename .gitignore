@@ -1,3 +1,4 @@
 web_venv/
 .env
 gcp/
+.dbt/
